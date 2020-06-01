@@ -1,0 +1,25 @@
+service: lambda-layer
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+#  environment:
+#    NODE_PATH: "./:/opt/node_modules" #Uncomment layer path = ./lib/node_modules/MODULE_NAME
+
+# you can add packaging information here
+package:
+  exclude:
+    - lib/**
+    - .idea/**
+
+layers:
+  mom:
+    path: lib
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http: get /
+    layers:
+      - !Ref MomLambdaLayer
